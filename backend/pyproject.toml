@@ -1,0 +1,10 @@
+[project]
+name = "stocksense-backend"
+version = "0.1.0"
+description = "StockSense inventory management API"
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+# Tell pytest where to find tests and the app package.
+testpaths = ["tests"]
+pythonpath = ["."]
