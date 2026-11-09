@@ -1,0 +1,1 @@
+"""StockSense backend application package."""

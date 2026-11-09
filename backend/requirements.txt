@@ -1,0 +1,16 @@
+# StockSense Backend Dependencies
+# Compatible with Python 3.13
+
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+pydantic==2.11.3
+pydantic-settings==2.9.1
+
+# Database (not used in Phase 1, but included for setup)
+sqlalchemy==2.0.41
+alembic==1.15.2
+psycopg2-binary==2.9.10
+
+# Testing
+pytest==8.3.5
+httpx==0.28.1
