@@ -69,3 +69,71 @@ export interface PaginatedProducts {
   items: Product[];
   total: number;
 }
+
+/** A product lot/batch. */
+export interface Batch {
+  id: number;
+  product_id: number;
+  batch_number: string;
+  initial_quantity: number;
+  quantity: number;
+  expiry_date: string | null;
+  received_date: string;
+  created_at: string;
+  is_expired: boolean;
+  days_until_expiry: number | null;
+  product_name?: string | null;
+  product_sku?: string | null;
+}
+
+/** Payload to create a batch. */
+export interface BatchCreate {
+  product_id: number;
+  batch_number: string;
+  quantity: number;
+  expiry_date?: string | null;
+  received_date?: string | null;
+}
+
+/** Payload to update a batch. */
+export interface BatchUpdate {
+  batch_number?: string;
+  quantity?: number;
+  expiry_date?: string | null;
+  received_date?: string | null;
+}
+
+/** Request payload to deduct stock using FIFO. */
+export interface StockDeductRequest {
+  quantity: number;
+  reason?: string | null;
+}
+
+export interface BatchDeductionDetail {
+  batch_id: number;
+  batch_number: string;
+  deducted_quantity: number;
+  remaining_in_batch: number;
+  expiry_date: string | null;
+}
+
+export interface StockDeductResponse {
+  product_id: number;
+  requested_quantity: number;
+  deducted_quantity: number;
+  remaining_stock: number;
+  batches_affected: BatchDeductionDetail[];
+}
+
+export interface AlertsSummaryCounts {
+  low_stock_products_count: number;
+  expiring_batches_count: number;
+  expired_batches_count: number;
+}
+
+export interface AlertsSummaryResponse {
+  counts: AlertsSummaryCounts;
+  low_stock_products: Product[];
+  expiring_batches: Batch[];
+  expired_batches: Batch[];
+}

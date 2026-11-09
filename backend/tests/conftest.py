@@ -22,7 +22,7 @@ from app.core.database import Base, get_db
 from app.main import app
 
 # Import models so Base.metadata knows about all tables.
-from app.models import Category, Product  # noqa: F401
+from app.models import Batch, Category, Product  # noqa: F401
 
 # In-memory SQLite engine.
 # StaticPool ensures every connection shares the same underlying

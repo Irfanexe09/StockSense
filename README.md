@@ -94,7 +94,17 @@ cd frontend && npm run lint && npm run build
 - Sidebar navigation between Dashboard, Products, and Categories
 - 21 automated backend tests (SQLite in-memory)
 
-### 🔲 Phase 3 — Batches, Expiry Tracking & Low-Stock Alerts
+### ✅ Phase 3 — Batches, Expiry Tracking & Low-Stock Alerts (Complete)
+- Database model: Batch with quantity, initial_quantity, received_date, and optional expiry_date
+- Alembic database migration with automatic backfill for existing stock
+- Full CRUD API for batches and expiry status calculation
+- FIFO stock deduction engine prioritizing earliest-expiring batches, followed by non-expiring batches by receipt date
+- Atomic stock deduction and strict insufficient stock validation (HTTP 400 error rollback)
+- Inventory alerts summary API (`/api/v1/alerts/`) detecting low-stock products and expiring/expired batches
+- Frontend: Real-time dashboard with active KPI badges, low-stock alerts table, and expiry warnings
+- Frontend: Dedicated Batches & Expiry page with filtering, new batch creation, and FIFO deduction tool
+- 30 automated backend tests with 100% pass rate
+
 ### 🔲 Phase 4 — Point of Sale & Inventory Transactions
 ### 🔲 Phase 5 — Supplier Purchases & Restocking
 ### 🔲 Phase 6 — Sales & Inventory Analytics

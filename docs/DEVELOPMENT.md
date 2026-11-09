@@ -51,6 +51,9 @@ pip install -r requirements.txt
 # Copy and configure backend environment
 cp .env.example .env
 # Edit .env and update DATABASE_URL with your password
+
+# Apply database migrations
+alembic upgrade head
 ```
 
 ### 4. Set up the frontend

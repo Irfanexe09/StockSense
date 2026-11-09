@@ -4,9 +4,12 @@ StockSense — Product service.
 All database operations for products live here.
 """
 
+from datetime import datetime, timezone
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.models.batch import Batch
 from app.models.product import Product
 from app.schemas.product import ProductCreate, ProductUpdate
 
@@ -78,9 +81,24 @@ def get_product_by_sku(db: Session, sku: str) -> Product | None:
 
 
 def create_product(db: Session, data: ProductCreate) -> Product:
-    """Insert a new product and return it."""
+    """Insert a new product and return it.
+    If stock_quantity > 0 is provided, also records an initial batch to maintain consistency.
+    """
     product = Product(**data.model_dump())
     db.add(product)
+    db.flush()
+
+    if product.stock_quantity > 0:
+        initial_batch = Batch(
+            product_id=product.id,
+            batch_number=f"INIT-{product.sku}",
+            initial_quantity=product.stock_quantity,
+            quantity=product.stock_quantity,
+            expiry_date=None,
+            received_date=datetime.now(timezone.utc).date(),
+        )
+        db.add(initial_batch)
+
     db.commit()
     db.refresh(product)
     return product

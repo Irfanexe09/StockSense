@@ -53,6 +53,14 @@ class Product(Base):
         "Category", back_populates="products"
     )
 
+    # Relationship: one product has many batches.
+    batches: Mapped[list["Batch"]] = relationship(
+        "Batch",
+        back_populates="product",
+        cascade="all, delete-orphan",
+        order_by="Batch.id",
+    )
+
     @property
     def is_low_stock(self) -> bool:
         """True when stock is at or below the reorder threshold."""
@@ -63,3 +71,4 @@ class Product(Base):
 
 
 from app.models.category import Category  # noqa: E402, F401
+from app.models.batch import Batch  # noqa: E402, F401

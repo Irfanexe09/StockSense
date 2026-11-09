@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { apiFetch } from "@/lib/api";
 import type { PaginatedProducts, Product, Category, ProductCreate } from "@/types/api";
 
@@ -156,6 +157,7 @@ export default function ProductsPage() {
                   <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500">Price</th>
                   <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500">Stock</th>
                   <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">Status</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200 bg-white dark:divide-zinc-800 dark:bg-zinc-950">
@@ -180,6 +182,14 @@ export default function ProductsPage() {
                           In Stock
                         </span>
                       )}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
+                      <Link
+                        href="/batches"
+                        className="text-xs font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
+                      >
+                        Batches &rarr;
+                      </Link>
                     </td>
                   </tr>
                 ))}

@@ -48,3 +48,4 @@ PostgreSQL stores all persistent data: products, batches, sales, purchases, and 
 1. **Monorepo structure** — Frontend and backend live in the same repository for easy version tracking, but they are fully independent applications.
 2. **Environment variables** — All secrets and configuration are read from `.env` files, never hardcoded.
 3. **CORS middleware** — The backend explicitly allows requests from the frontend origin to avoid browser security blocks.
+4. **Lot/Batch Inventory & FIFO** — Products track total inventory, but stock is physically organized in lots/batches (`batches` table). When stock is deducted, the system consumes the earliest-expiring batch first (FEFO/FIFO). If no expiry date is set, the oldest batch by receipt date is used. `Product.stock_quantity` is kept in sync with the sum of batch quantities.

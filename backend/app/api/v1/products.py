@@ -8,11 +8,15 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.schemas.batch import BatchResponse, StockDeductRequest, StockDeductResponse
 from app.schemas.product import ProductCreate, ProductResponse, ProductUpdate
 from app.services import (
+    InsufficientStockError,
     count_products,
     create_product,
+    deduct_stock_fifo,
     delete_product,
+    get_batches,
     get_product,
     get_product_by_sku,
     get_products,
@@ -142,3 +146,63 @@ def remove_product(
             detail=f"Product with id {product_id} not found.",
         )
     delete_product(db, product)
+
+
+@router.get("/{product_id}/batches", response_model=list[BatchResponse])
+def list_product_batches(
+    product_id: int,
+    active_only: bool = True,
+    db: Session = Depends(get_db),
+) -> list[BatchResponse]:
+    """Return all batches for a specific product."""
+    product = get_product(db, product_id)
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with id {product_id} not found.",
+        )
+    batches = get_batches(db, product_id=product_id, active_only=active_only)
+    results: list[BatchResponse] = []
+    for b in batches:
+        resp = BatchResponse.model_validate(b)
+        resp.product_name = product.name
+        resp.product_sku = product.sku
+        results.append(resp)
+    return results
+
+
+@router.post("/{product_id}/deduct", response_model=StockDeductResponse)
+def deduct_product_stock(
+    product_id: int,
+    data: StockDeductRequest,
+    db: Session = Depends(get_db),
+) -> StockDeductResponse:
+    """
+    Deduct stock from a product using FIFO across batches.
+    Batches expiring earliest are deducted first.
+    Rejects the transaction if available stock is insufficient.
+    """
+    product = get_product(db, product_id)
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with id {product_id} not found.",
+        )
+
+    try:
+        return deduct_stock_fifo(
+            db,
+            product_id=product_id,
+            quantity=data.quantity,
+            reason=data.reason,
+        )
+    except InsufficientStockError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
