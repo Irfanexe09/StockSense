@@ -1,1 +1,12 @@
-"""Models package — SQLAlchemy ORM models (empty in Phase 1)."""
+"""
+Models package — SQLAlchemy ORM models.
+
+Import every model here so that:
+  1. `from app.models import Category, Product` works everywhere.
+  2. Base.metadata is fully populated when Alembic inspects it.
+"""
+
+from app.models.category import Category
+from app.models.product import Product
+
+__all__ = ["Category", "Product"]

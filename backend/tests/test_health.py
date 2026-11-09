@@ -1,23 +1,15 @@
 """
-StockSense — Backend test suite.
-
 Tests for the health check endpoint.
 """
 
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
-
-
-def test_health_check_returns_200():
+def test_health_check_returns_200(client):
     """The health endpoint should return HTTP 200."""
     response = client.get("/api/v1/health")
     assert response.status_code == 200
 
 
-def test_health_check_response_body():
+def test_health_check_response_body(client):
     """The health endpoint should return the expected JSON fields."""
     response = client.get("/api/v1/health")
     data = response.json()

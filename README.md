@@ -84,7 +84,16 @@ cd frontend && npm run lint && npm run build
 - Docker Compose: PostgreSQL 16 configuration
 - Documentation: Architecture and development guides
 
-### 🔲 Phase 2 — Product & Category Management
+### ✅ Phase 2 — Product & Category Management (Complete)
+- Database models: Category and Product with SQLAlchemy 2
+- Full CRUD API endpoints for categories and products
+- Search by name/SKU, filter by category, low-stock filter
+- Pydantic schema validation on all inputs
+- Frontend: Products page with table, search, filters, and add form
+- Frontend: Categories page with list and add/delete
+- Sidebar navigation between Dashboard, Products, and Categories
+- 21 automated backend tests (SQLite in-memory)
+
 ### 🔲 Phase 3 — Batches, Expiry Tracking & Low-Stock Alerts
 ### 🔲 Phase 4 — Point of Sale & Inventory Transactions
 ### 🔲 Phase 5 — Supplier Purchases & Restocking

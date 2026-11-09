@@ -30,10 +30,9 @@ from app.core.database import Base  # noqa: E402
 # Set the database URL programmatically so it is never hardcoded in alembic.ini.
 config.set_main_option("sqlalchemy.url", settings.database_url)
 
-# Import all model modules here so that Base.metadata is fully populated
-# before Alembic inspects it.  As we add models in later phases we will
-# add their imports below.
-# from app.models import product, sale, ...  # noqa: F401  (future phases)
+# Import all model modules so that Base.metadata is fully populated
+# before Alembic inspects it.
+from app.models import Category, Product  # noqa: E402, F401
 
 # This is what Alembic compares against the live database schema.
 target_metadata = Base.metadata
