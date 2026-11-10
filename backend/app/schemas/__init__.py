@@ -14,6 +14,13 @@ from app.schemas.batch import (
 )
 from app.schemas.category import CategoryCreate, CategoryResponse, CategoryUpdate
 from app.schemas.product import ProductCreate, ProductResponse, ProductUpdate
+from app.schemas.sale import (
+    CheckoutItem,
+    CheckoutRequest,
+    SaleItemResponse,
+    SaleListResponse,
+    SaleResponse,
+)
 
 __all__ = [
     "AlertsSummaryCounts",
@@ -25,9 +32,14 @@ __all__ = [
     "CategoryCreate",
     "CategoryResponse",
     "CategoryUpdate",
+    "CheckoutItem",
+    "CheckoutRequest",
     "ProductCreate",
     "ProductResponse",
     "ProductUpdate",
+    "SaleItemResponse",
+    "SaleListResponse",
+    "SaleResponse",
     "StockDeductRequest",
     "StockDeductResponse",
 ]

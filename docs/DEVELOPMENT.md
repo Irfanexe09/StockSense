@@ -56,6 +56,13 @@ cp .env.example .env
 alembic upgrade head
 ```
 
+> **Migration history:**
+>
+> | Revision | Description |
+> |---|---|
+> | `0001_initial_and_batches` | Creates categories, products, and batches tables with stock backfill |
+> | `0002_add_sales` | Creates sales and sale_items tables for POS checkout |
+
 ### 4. Set up the frontend
 
 ```bash

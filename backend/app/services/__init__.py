@@ -27,10 +27,21 @@ from app.services.product_service import (
     get_products,
     update_product,
 )
+from app.services.sale_service import (
+    CheckoutError,
+    checkout,
+    count_sales,
+    get_sale,
+    get_sale_by_receipt,
+    list_sales,
+)
 
 __all__ = [
+    "CheckoutError",
     "InsufficientStockError",
+    "checkout",
     "count_products",
+    "count_sales",
     "create_batch",
     "create_category",
     "create_product",
@@ -47,6 +58,9 @@ __all__ = [
     "get_product",
     "get_product_by_sku",
     "get_products",
+    "get_sale",
+    "get_sale_by_receipt",
+    "list_sales",
     "update_batch",
     "update_category",
     "update_product",

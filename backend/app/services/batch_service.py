@@ -159,11 +159,17 @@ def deduct_stock_fifo(
     product_id: int,
     quantity: int,
     reason: str | None = None,
+    *,
+    commit: bool = True,
 ) -> StockDeductResponse:
     """
     Deduct stock from a product using FIFO (earliest expiry first, oldest receipt second).
     Atomically updates both batch quantities and product.stock_quantity.
     Raises InsufficientStockError if quantity > available stock.
+
+    When ``commit=False`` the caller is responsible for committing the
+    transaction.  This is used by the checkout service to deduct multiple
+    products atomically within a single database transaction.
     """
     product = db.get(Product, product_id)
     if not product:
@@ -216,8 +222,9 @@ def deduct_stock_fifo(
 
     product.stock_quantity = max(0, product.stock_quantity - quantity)
 
-    db.commit()
-    db.refresh(product)
+    if commit:
+        db.commit()
+        db.refresh(product)
 
     return StockDeductResponse(
         product_id=product.id,

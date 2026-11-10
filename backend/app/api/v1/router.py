@@ -12,6 +12,7 @@ from app.api.v1.batches import router as batches_router
 from app.api.v1.categories import router as categories_router
 from app.api.v1.health import router as health_router
 from app.api.v1.products import router as products_router
+from app.api.v1.sales import router as sales_router
 
 api_router = APIRouter()
 
@@ -29,3 +30,6 @@ api_router.include_router(batches_router)
 
 # --- Inventory Alerts ---
 api_router.include_router(alerts_router)
+
+# --- Sales / Point of Sale ---
+api_router.include_router(sales_router)

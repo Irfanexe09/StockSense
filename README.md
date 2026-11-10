@@ -105,7 +105,16 @@ cd frontend && npm run lint && npm run build
 - Frontend: Dedicated Batches & Expiry page with filtering, new batch creation, and FIFO deduction tool
 - 30 automated backend tests with 100% pass rate
 
-### 🔲 Phase 4 — Point of Sale & Inventory Transactions
+### ✅ Phase 4 — Point of Sale & Inventory Transactions (Complete)
+- Database models: Sale (with unique receipt numbers) and SaleItem (with product snapshots)
+- Alembic migration `0002_add_sales` for sales and sale_items tables
+- Atomic checkout API (`POST /api/v1/sales/checkout`): validates cart, verifies prices, deducts stock via FIFO, records sale — full rollback on any failure
+- Backward-compatible refactor of `deduct_stock_fifo` with `commit` parameter for transactional multi-item deductions
+- Sale retrieval: `GET /api/v1/sales/` (list) and `GET /api/v1/sales/{id}` (detail with line items)
+- Frontend: Point of Sale page with product search, cart management, quantity controls, live totals, checkout confirmation, and success receipt display
+- Frontend: Sales History page with sortable list and receipt detail modal
+- Sidebar navigation updated with Point of Sale and Sales History
+- 45 automated backend tests (15 new: checkout success, multi-item, FIFO, rollback, validation, totals, history)
 ### 🔲 Phase 5 — Supplier Purchases & Restocking
 ### 🔲 Phase 6 — Sales & Inventory Analytics
 ### 🔲 Phase 7 — Demand Forecasting

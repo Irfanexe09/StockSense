@@ -137,3 +137,47 @@ export interface AlertsSummaryResponse {
   expiring_batches: Batch[];
   expired_batches: Batch[];
 }
+
+// ── Sales / Point of Sale ──
+
+/** A single item in a checkout request. */
+export interface CheckoutItem {
+  product_id: number;
+  quantity: number;
+  unit_price: number;
+}
+
+/** Payload for POST /api/v1/sales/checkout. */
+export interface CheckoutRequest {
+  items: CheckoutItem[];
+}
+
+/** A line item within a completed sale. */
+export interface SaleItem {
+  id: number;
+  product_id: number | null;
+  product_name: string;
+  product_sku: string;
+  quantity: number;
+  unit_price: number;
+  line_total: number;
+}
+
+/** A completed sale with full line-item detail. */
+export interface SaleResponse {
+  id: number;
+  receipt_number: string;
+  created_at: string;
+  total_amount: number;
+  item_count: number;
+  items: SaleItem[];
+}
+
+/** A sale summary (without line items) for list views. */
+export interface SaleListItem {
+  id: number;
+  receipt_number: string;
+  created_at: string;
+  total_amount: number;
+  item_count: number;
+}
