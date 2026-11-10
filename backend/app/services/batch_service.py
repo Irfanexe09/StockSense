@@ -40,9 +40,13 @@ def _enrich_batch_response(batch: Batch) -> BatchResponse:
     return resp
 
 
-def create_batch(db: Session, data: BatchCreate) -> Batch:
+def create_batch(db: Session, data: BatchCreate, *, commit: bool = True) -> Batch:
     """
     Create a new batch and increment the product's total stock_quantity.
+
+    When ``commit=False`` the caller is responsible for committing the
+    transaction.  This is used by purchase order receiving to create batches
+    atomically across multiple received items.
     """
     product = db.get(Product, data.product_id)
     if not product:
@@ -63,9 +67,12 @@ def create_batch(db: Session, data: BatchCreate) -> Batch:
     # Maintain consistency: product stock_quantity is the sum of batch quantities
     product.stock_quantity += data.quantity
 
-    db.commit()
-    db.refresh(batch)
-    db.refresh(product)
+    if commit:
+        db.commit()
+        db.refresh(batch)
+        db.refresh(product)
+    else:
+        db.flush()
     return batch
 
 

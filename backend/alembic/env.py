@@ -32,7 +32,18 @@ config.set_main_option("sqlalchemy.url", settings.database_url)
 
 # Import all model modules so that Base.metadata is fully populated
 # before Alembic inspects it.
-from app.models import Batch, Category, Product, Sale, SaleItem  # noqa: E402, F401
+from app.models import (  # noqa: E402, F401
+    Batch,
+    Category,
+    Product,
+    PurchaseOrder,
+    PurchaseOrderItem,
+    PurchaseOrderReceipt,
+    PurchaseOrderReceiptItem,
+    Sale,
+    SaleItem,
+    Supplier,
+)
 
 # This is what Alembic compares against the live database schema.
 target_metadata = Base.metadata

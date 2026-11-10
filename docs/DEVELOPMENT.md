@@ -62,6 +62,7 @@ alembic upgrade head
 > |---|---|
 > | `0001_initial_and_batches` | Creates categories, products, and batches tables with stock backfill |
 > | `0002_add_sales` | Creates sales and sale_items tables for POS checkout |
+> | `0003_add_suppliers_and_purchases` | Creates suppliers, purchase_orders, purchase_order_items, purchase_order_receipts, and purchase_order_receipt_items tables |
 
 ### 4. Set up the frontend
 

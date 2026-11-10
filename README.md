@@ -115,7 +115,20 @@ cd frontend && npm run lint && npm run build
 - Frontend: Sales History page with sortable list and receipt detail modal
 - Sidebar navigation updated with Point of Sale and Sales History
 - 45 automated backend tests (15 new: checkout success, multi-item, FIFO, rollback, validation, totals, history)
-### 🔲 Phase 5 — Supplier Purchases & Restocking
+
+### ✅ Phase 5 — Supplier Purchases & Restocking (Complete)
+- Database models: Supplier, PurchaseOrder (unique PO number), PurchaseOrderItem, PurchaseOrderReceipt, and PurchaseOrderReceiptItem
+- Alembic migration `0003_add_suppliers_and_purchases`
+- Purchase order lifecycle: DRAFT, ORDERED, PARTIALLY_RECEIVED, RECEIVED, and CANCELLED
+- Atomic inventory receiving: creates Batches with received quantities, costs, and optional expiry dates; synchronizes `Product.stock_quantity`
+- Strict receiving safeguards: prevents over-receiving, blocks receiving cancelled/draft orders, prohibits cancellation once stock is received
+- Suppliers API (`/api/v1/suppliers/`) and Purchase Orders API (`/api/v1/purchase-orders/`)
+- Frontend: Suppliers management page (vendor directory, active/inactive toggle, register modal)
+- Frontend: Purchases page with status filter tabs, new PO creation modal, detailed PO inspection, and receipt modal
+- Sidebar navigation updated with Suppliers and Purchases
+- 66 automated backend tests (21 new: supplier validation, PO totals, partial/full receiving, over-receipt rejection, batch creation, status transitions)
+
+### 🔲 Phase 6 — Sales & Inventory Analytics
 ### 🔲 Phase 6 — Sales & Inventory Analytics
 ### 🔲 Phase 7 — Demand Forecasting
 ### 🔲 Phase 8 — Deployment

@@ -181,3 +181,125 @@ export interface SaleListItem {
   total_amount: number;
   item_count: number;
 }
+
+// ── Suppliers ──
+
+export interface Supplier {
+  id: number;
+  name: string;
+  contact_name: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface SupplierCreate {
+  name: string;
+  contact_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  is_active?: boolean;
+}
+
+export interface SupplierUpdate {
+  name?: string;
+  contact_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  is_active?: boolean;
+}
+
+// ── Purchase Orders & Receiving ──
+
+export interface PurchaseOrderItemCreate {
+  product_id: number;
+  quantity: number;
+  unit_cost: number;
+}
+
+export interface PurchaseOrderItem {
+  id: number;
+  purchase_order_id: number;
+  product_id: number | null;
+  product_name: string;
+  product_sku: string;
+  quantity: number;
+  received_quantity: number;
+  remaining_quantity: number;
+  unit_cost: number;
+  line_total: number;
+  is_fully_received: boolean;
+}
+
+export interface ReceiveItemInput {
+  purchase_order_item_id: number;
+  quantity_received: number;
+  batch_number: string;
+  expiry_date?: string | null;
+}
+
+export interface ReceiveOrderRequest {
+  notes?: string | null;
+  items: ReceiveItemInput[];
+}
+
+export interface ReceiptItem {
+  id: number;
+  purchase_order_item_id: number;
+  batch_id: number | null;
+  quantity_received: number;
+  batch_number: string;
+  expiry_date: string | null;
+}
+
+export interface ReceiptResponse {
+  id: number;
+  purchase_order_id: number;
+  receipt_number: string;
+  received_at: string;
+  notes: string | null;
+  items: ReceiptItem[];
+}
+
+export interface PurchaseOrderListItem {
+  id: number;
+  order_number: string;
+  supplier_id: number;
+  supplier_name: string | null;
+  status: "DRAFT" | "ORDERED" | "PARTIALLY_RECEIVED" | "RECEIVED" | "CANCELLED";
+  order_date: string;
+  expected_delivery_date: string | null;
+  total_amount: number;
+  item_count: number;
+  created_at: string;
+}
+
+export interface PurchaseOrder {
+  id: number;
+  order_number: string;
+  supplier_id: number;
+  supplier_name: string | null;
+  status: "DRAFT" | "ORDERED" | "PARTIALLY_RECEIVED" | "RECEIVED" | "CANCELLED";
+  order_date: string;
+  expected_delivery_date: string | null;
+  notes: string | null;
+  total_amount: number;
+  item_count: number;
+  created_at: string;
+  updated_at: string;
+  items: PurchaseOrderItem[];
+  receipts: ReceiptResponse[];
+}
+
+export interface PurchaseOrderCreate {
+  supplier_id: number;
+  order_date?: string | null;
+  expected_delivery_date?: string | null;
+  notes?: string | null;
+  submit_now?: boolean;
+  items: PurchaseOrderItemCreate[];
+}
