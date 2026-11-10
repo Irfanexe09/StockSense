@@ -303,3 +303,75 @@ export interface PurchaseOrderCreate {
   submit_now?: boolean;
   items: PurchaseOrderItemCreate[];
 }
+
+// ── Sales & Inventory Analytics ──
+
+export interface SalesSummaryKPIs {
+  total_revenue: number;
+  order_count: number;
+  units_sold: number;
+  average_order_value: number;
+}
+
+export interface DailySalesTrend {
+  date: string;
+  revenue: number;
+  order_count: number;
+  units_sold: number;
+}
+
+export interface TopSellingProduct {
+  product_id: number | null;
+  product_name: string;
+  product_sku: string;
+  units_sold: number;
+  total_revenue: number;
+  order_count: number;
+}
+
+export interface CategorySalesShare {
+  category_id: number | null;
+  category_name: string;
+  units_sold: number;
+  total_revenue: number;
+  revenue_percentage: number;
+}
+
+export interface SalesAnalyticsResponse {
+  start_date: string;
+  end_date: string;
+  summary: SalesSummaryKPIs;
+  daily_trends: DailySalesTrend[];
+  top_products: TopSellingProduct[];
+  category_breakdown: CategorySalesShare[];
+}
+
+export interface InventoryValuationSummary {
+  total_products_count: number;
+  total_stock_units: number;
+  total_cost_value: number;
+  total_retail_value: number;
+  potential_margin_value: number;
+  potential_margin_percent: number;
+}
+
+export interface LowStockExposure {
+  low_stock_products_count: number;
+  total_units_deficit: number;
+  estimated_restock_cost: number;
+}
+
+export interface ExpiryRiskExposure {
+  expired_batches_count: number;
+  expired_units: number;
+  expired_cost_value: number;
+  expiring_soon_batches_count: number;
+  expiring_soon_units: number;
+  expiring_soon_cost_value: number;
+}
+
+export interface InventoryAnalyticsResponse {
+  valuation: InventoryValuationSummary;
+  low_stock_exposure: LowStockExposure;
+  expiry_risk: ExpiryRiskExposure;
+}

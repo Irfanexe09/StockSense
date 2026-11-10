@@ -1,5 +1,10 @@
 """Services package — business logic."""
 
+from app.services.analytics_service import (
+    get_inventory_analytics,
+    get_sales_analytics,
+    resolve_date_range,
+)
 from app.services.batch_service import (
     InsufficientStockError,
     create_batch,
@@ -78,18 +83,21 @@ __all__ = [
     "get_category",
     "get_category_by_name",
     "get_inventory_alerts",
+    "get_inventory_analytics",
     "get_product",
     "get_product_by_sku",
     "get_products",
     "get_purchase_order",
     "get_sale",
     "get_sale_by_receipt",
+    "get_sales_analytics",
     "get_supplier",
     "get_supplier_by_name",
     "list_purchase_orders",
     "list_sales",
     "list_suppliers",
     "receive_purchase_order_items",
+    "resolve_date_range",
     "submit_purchase_order",
     "update_batch",
     "update_category",

@@ -128,8 +128,19 @@ cd frontend && npm run lint && npm run build
 - Sidebar navigation updated with Suppliers and Purchases
 - 66 automated backend tests (21 new: supplier validation, PO totals, partial/full receiving, over-receipt rejection, batch creation, status transitions)
 
-### 🔲 Phase 6 — Sales & Inventory Analytics
-### 🔲 Phase 6 — Sales & Inventory Analytics
+### ✅ Phase 6 — Sales & Inventory Analytics (Complete)
+- Sales Performance KPIs: Total revenue, completed order count, units sold, and average order value (AOV)
+- Date range filtering: Today, 7-day, 30-day, 90-day, all-time presets, and custom date range boundaries with validation
+- Daily sales trend time-series with zero-filled gaps for accurate charting
+- Product leaderboard: Top-selling products ranked by units sold and revenue
+- Category sales breakdown: Revenue contribution and percentage share by category
+- Inventory valuation: Cost investment, retail valuation, and potential gross margin percentage
+- Financial risk exposure: Low-stock reorder deficit cost and expiring/expired batch values
+- Analytics API (`/api/v1/analytics/sales` and `/api/v1/analytics/inventory`)
+- Frontend: Dedicated Analytics dashboard (`/analytics`) with interactive visual bar charts, category progress meters, leaderboard tables, and valuation cards
+- Main dashboard integration: 30-day sales & valuation overview cards
+- 73 automated backend tests (7 new: empty sales handling, KPI calculations, date boundaries, custom filters, inventory valuation, deficit exposure)
+
 ### 🔲 Phase 7 — Demand Forecasting
 ### 🔲 Phase 8 — Deployment
 

@@ -2,6 +2,17 @@
 Schemas package — Pydantic request/response schemas.
 """
 
+from app.schemas.analytics import (
+    CategorySalesShare,
+    DailySalesTrend,
+    ExpiryRiskExposure,
+    InventoryAnalyticsResponse,
+    InventoryValuationSummary,
+    LowStockExposure,
+    SalesAnalyticsResponse,
+    SalesSummaryKPIs,
+    TopSellingProduct,
+)
 from app.schemas.batch import (
     AlertsSummaryCounts,
     AlertsSummaryResponse,
@@ -45,8 +56,14 @@ __all__ = [
     "CategoryCreate",
     "CategoryResponse",
     "CategoryUpdate",
+    "CategorySalesShare",
     "CheckoutItem",
     "CheckoutRequest",
+    "DailySalesTrend",
+    "ExpiryRiskExposure",
+    "InventoryAnalyticsResponse",
+    "InventoryValuationSummary",
+    "LowStockExposure",
     "ProductCreate",
     "ProductResponse",
     "ProductUpdate",
@@ -63,9 +80,12 @@ __all__ = [
     "SaleItemResponse",
     "SaleListResponse",
     "SaleResponse",
+    "SalesAnalyticsResponse",
+    "SalesSummaryKPIs",
     "StockDeductRequest",
     "StockDeductResponse",
     "SupplierCreate",
     "SupplierResponse",
     "SupplierUpdate",
+    "TopSellingProduct",
 ]

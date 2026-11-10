@@ -8,6 +8,7 @@ that is mounted at /api/v1 in main.py.
 from fastapi import APIRouter
 
 from app.api.v1.alerts import router as alerts_router
+from app.api.v1.analytics import router as analytics_router
 from app.api.v1.batches import router as batches_router
 from app.api.v1.categories import router as categories_router
 from app.api.v1.health import router as health_router
@@ -32,6 +33,9 @@ api_router.include_router(batches_router)
 
 # --- Inventory Alerts ---
 api_router.include_router(alerts_router)
+
+# --- Sales & Inventory Analytics ---
+api_router.include_router(analytics_router)
 
 # --- Sales / Point of Sale ---
 api_router.include_router(sales_router)

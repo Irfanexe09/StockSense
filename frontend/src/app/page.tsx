@@ -4,11 +4,18 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { apiFetch } from "@/lib/api";
 import { StatusCard } from "@/components/status-card";
-import type { AlertsSummaryResponse, PaginatedProducts } from "@/types/api";
+import type {
+  AlertsSummaryResponse,
+  InventoryAnalyticsResponse,
+  PaginatedProducts,
+  SalesAnalyticsResponse,
+} from "@/types/api";
 
 export default function DashboardPage() {
   const [alerts, setAlerts] = useState<AlertsSummaryResponse | null>(null);
   const [totalProducts, setTotalProducts] = useState<number>(0);
+  const [salesSummary, setSalesSummary] = useState<SalesAnalyticsResponse | null>(null);
+  const [inventoryAnalytics, setInventoryAnalytics] = useState<InventoryAnalyticsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -20,14 +27,18 @@ export default function DashboardPage() {
       setLoading(true);
       setError(null);
       try {
-        const [alertsData, productsData] = await Promise.all([
+        const [alertsData, productsData, salesData, invData] = await Promise.all([
           apiFetch<AlertsSummaryResponse>("/api/v1/alerts/"),
           apiFetch<PaginatedProducts>("/api/v1/products/?limit=1"),
+          apiFetch<SalesAnalyticsResponse>("/api/v1/analytics/sales?preset=30d"),
+          apiFetch<InventoryAnalyticsResponse>("/api/v1/analytics/inventory"),
         ]);
 
         if (!cancelled) {
           setAlerts(alertsData);
           setTotalProducts(productsData.total);
+          setSalesSummary(salesData);
+          setInventoryAnalytics(invData);
         }
       } catch (err) {
         if (!cancelled) {
@@ -137,6 +148,58 @@ export default function DashboardPage() {
                 }
               />
             </section>
+
+            {/* Sales & Valuation Performance Highlights */}
+            {salesSummary && inventoryAnalytics && (
+              <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-50">
+                      Sales & Valuation Overview (Last 30 Days)
+                    </h2>
+                    <p className="text-xs text-zinc-500">
+                      High-level revenue and inventory metrics.
+                    </p>
+                  </div>
+                  <Link
+                    href="/analytics"
+                    className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
+                  >
+                    View Full Analytics →
+                  </Link>
+                </div>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <div className="rounded-md border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-800/50">
+                    <span className="text-xs text-zinc-500">30-Day Revenue</span>
+                    <p className="mt-1 text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                      ${Number(salesSummary.summary.total_revenue).toFixed(2)}
+                    </p>
+                    <span className="text-[11px] text-zinc-400">{salesSummary.summary.order_count} completed orders</span>
+                  </div>
+                  <div className="rounded-md border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-800/50">
+                    <span className="text-xs text-zinc-500">Units Sold</span>
+                    <p className="mt-1 text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                      {salesSummary.summary.units_sold}
+                    </p>
+                    <span className="text-[11px] text-zinc-400">Avg ${Number(salesSummary.summary.average_order_value).toFixed(2)} / order</span>
+                  </div>
+                  <div className="rounded-md border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-800/50">
+                    <span className="text-xs text-zinc-500">Inventory Retail Value</span>
+                    <p className="mt-1 text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                      ${Number(inventoryAnalytics.valuation.total_retail_value).toFixed(2)}
+                    </p>
+                    <span className="text-[11px] text-zinc-400">{inventoryAnalytics.valuation.total_stock_units} units on hand</span>
+                  </div>
+                  <div className="rounded-md border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-800/50">
+                    <span className="text-xs text-zinc-500">Inventory Cost Value</span>
+                    <p className="mt-1 text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                      ${Number(inventoryAnalytics.valuation.total_cost_value).toFixed(2)}
+                    </p>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400">Spread: {inventoryAnalytics.valuation.potential_margin_percent}% margin</span>
+                  </div>
+                </div>
+              </section>
+            )}
 
             {/* Low-Stock Alerts Section */}
             <section className="space-y-3">
